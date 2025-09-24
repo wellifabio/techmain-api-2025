@@ -11,6 +11,7 @@ async function inserePerfis() {
             const [id, perfil] = linha.split(';');
             return prisma.perfil.create({
                 data: {
+                    id: Number(id),
                     perfil
                 }
             });
@@ -28,6 +29,7 @@ async function insereUsuarios() {
             const [id, senha, perfil] = linha.split(';');
             return prisma.usuario.create({
                 data: {
+                    id: Number(id),
                     senha,
                     perfil: Number(perfil)
                 }
@@ -46,6 +48,7 @@ async function insereEquipamentos() {
             const [id, equipamento, imagem, descricao, ativo, data] = linha.split(';');
             return prisma.equipamento.create({
                 data: {
+                    id: Number(id),
                     equipamento,
                     imagem,
                     descricao,
@@ -67,6 +70,7 @@ async function insereComentarios() {
             const [id, comentario, equipamento, perfil, data] = linha.split(';');
             return prisma.comentario.create({
                 data: {
+                    id: Number(id),
                     comentario,
                     equipamento: Number(equipamento),
                     perfil: Number(perfil),
