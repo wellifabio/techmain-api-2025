@@ -5,11 +5,9 @@ const router = express.Router();
 const Usuario = require('./controllers/usuario');
 const Equipamento = require('./controllers/equipamento');
 const Comentario = require('./controllers/comentario');
+const Seed = require('../prisma/seed');
 
-router.post('/seed', async (req, res) => {
-    await require('../prisma/seed');
-    res.json({ message: 'Dados semeados com sucesso!' });
-});
+router.post('/seed', Seed.run);
 
 router.get('/', (req, res) => {
     return res.json({

@@ -73,22 +73,17 @@ async function insereComentarios() {
     });
 }
 
-//Implementa a função main que insere os dados wm ordem sequencial
-async function main() {
+// Função principal para semear os dados
+async function run(req, res) {
     await inserePerfis();
     await insereUsuarios();
     await insereEquipamentos();
     await insereComentarios();
-}
+    if (req) {
+        res.json({ message: 'Dados semeados com sucesso!' });
+    }
+};
 
-//Executando a função main
-main()
-    .then(async () => {
-        await prisma.$disconnect()
-        console.log('Semente completa!');
-    })
-    .catch(async (e) => {
-        console.error(e)
-        await prisma.$disconnect()
-        process.exit(1)
-    });
+module.exports = {
+    run
+};
