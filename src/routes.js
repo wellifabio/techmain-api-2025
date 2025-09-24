@@ -5,7 +5,7 @@ const router = express.Router();
 const Usuario = require('./controllers/usuario');
 const Equipamento = require('./controllers/equipamento');
 const Comentario = require('./controllers/comentario');
-const Seed = require('../prisma/seed');
+const Seed = require('./controllers/seed');
 
 router.post('/seed', Seed.run);
 
