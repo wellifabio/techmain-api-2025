@@ -87,10 +87,6 @@ async function insereComentarios() {
 async function run(req, res) {
     try {
         await prisma.$connect();
-        await prisma.comentario.deleteMany();
-        await prisma.equipamento.deleteMany();
-        await prisma.usuario.deleteMany();
-        await prisma.perfil.deleteMany();
         const perfis = await inserePerfis();
         const usuarios = await insereUsuarios();
         const equipamentos = await insereEquipamentos();
