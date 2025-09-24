@@ -11,7 +11,6 @@ async function inserePerfis() {
             const [id, perfil] = linha.split(';');
             return prisma.perfil.create({
                 data: {
-                    id: Number(id),
                     perfil
                 }
             });
@@ -29,7 +28,6 @@ async function insereUsuarios() {
             const [id, senha, perfil] = linha.split(';');
             return prisma.usuario.create({
                 data: {
-                    id: Number(id),
                     senha,
                     perfil: Number(perfil)
                 }
@@ -48,7 +46,6 @@ async function insereEquipamentos() {
             const [id, equipamento, imagem, descricao, ativo, data] = linha.split(';');
             return prisma.equipamento.create({
                 data: {
-                    id: Number(id),
                     equipamento,
                     imagem,
                     descricao,
@@ -70,7 +67,6 @@ async function insereComentarios() {
             const [id, comentario, equipamento, perfil, data] = linha.split(';');
             return prisma.comentario.create({
                 data: {
-                    id: Number(id),
                     comentario,
                     equipamento: Number(equipamento),
                     perfil: Number(perfil),
@@ -87,6 +83,10 @@ async function insereComentarios() {
 async function run(req, res) {
     try {
         await prisma.$connect();
+        await prisma.comentario.deleteMany();
+        await prisma.equipamento.deleteMany();
+        await prisma.usuario.deleteMany();
+        await prisma.perfil.deleteMany();
         const perfis = await inserePerfis();
         const usuarios = await insereUsuarios();
         const equipamentos = await insereEquipamentos();
