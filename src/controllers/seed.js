@@ -1,34 +1,33 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const fs = require('fs');
-
-//Importando os dados de arquivo csv para variáveis
 const path = require('path');
-const perfisData = fs.readFileSync(path.join(__dirname, '../../data/perfis.csv'), 'utf8');
-const usuariosData = fs.readFileSync(path.join(__dirname, '../../data/usuarios.csv'), 'utf8');
-const equipamentosData = fs.readFileSync(path.join(__dirname, '../../data/equipamentos.csv'), 'utf8');
-const comentariosData = fs.readFileSync(path.join(__dirname, '../../data/comentarios.csv'), 'utf8');
 
-// Funções para inserir os dados em cada tabela
 async function inserePerfis() {
-    perfisData.split('\r\n').map(async (linha, i) => {
-        if (i > 0) { //ignora a primeira linha
+    const perfisData = fs.readFileSync(path.join(__dirname, '../../data/perfis.csv'), 'utf8');
+    const linhas = perfisData.split('\r\n');
+    const resultados = await Promise.all(linhas.map((linha, i) => {
+        if (i > 0 && linha) {
             const [id, perfil] = linha.split(';');
-            await prisma.perfil.create({
+            return prisma.perfil.create({
                 data: {
                     id: Number(id),
                     perfil
                 }
             });
         }
-    });
+        return null;
+    }));
+    return resultados.filter(s => s !== null && s !== undefined).length;
 }
 
 async function insereUsuarios() {
-    usuariosData.split('\r\n').map(async (linha, i) => {
-        if (i > 0) { //ignora a primeira linha
+    const usuariosData = fs.readFileSync(path.join(__dirname, '../../data/usuarios.csv'), 'utf8');
+    const linhas = usuariosData.split('\r\n');
+    const resultados = await Promise.all(linhas.map((linha, i) => {
+        if (i > 0 && linha) {
             const [id, senha, perfil] = linha.split(';');
-            await prisma.usuario.create({
+            return prisma.usuario.create({
                 data: {
                     id: Number(id),
                     senha,
@@ -36,14 +35,18 @@ async function insereUsuarios() {
                 }
             });
         }
-    });
+        return null;
+    }));
+    return resultados.filter(s => s !== null && s !== undefined).length;
 }
 
 async function insereEquipamentos() {
-    equipamentosData.split('\r\n').map(async (linha, i) => {
-        if (i > 0) { //ignora a primeira linha
+    const equipamentosData = fs.readFileSync(path.join(__dirname, '../../data/equipamentos.csv'), 'utf8');
+    const linhas = equipamentosData.split('\r\n');
+    const resultados = await Promise.all(linhas.map((linha, i) => {
+        if (i > 0 && linha) {
             const [id, equipamento, imagem, descricao, ativo, data] = linha.split(';');
-            await prisma.equipamento.create({
+            return prisma.equipamento.create({
                 data: {
                     id: Number(id),
                     equipamento,
@@ -54,14 +57,18 @@ async function insereEquipamentos() {
                 }
             });
         }
-    });
+        return null;
+    }));
+    return resultados.filter(s => s !== null && s !== undefined).length;
 }
 
 async function insereComentarios() {
-    comentariosData.split('\r\n').map(async (linha, i) => {
-        if (i > 0) { //ignora a primeira linha
+    const comentariosData = fs.readFileSync(path.join(__dirname, '../../data/comentarios.csv'), 'utf8');
+    const linhas = comentariosData.split('\r\n');
+    const resultados = await Promise.all(linhas.map((linha, i) => {
+        if (i > 0 && linha) {
             const [id, comentario, equipamento, perfil, data] = linha.split(';');
-            await prisma.comentario.create({
+            return prisma.comentario.create({
                 data: {
                     id: Number(id),
                     comentario,
@@ -71,17 +78,28 @@ async function insereComentarios() {
                 }
             });
         }
-    });
+        return null;
+    }));
+    return resultados.filter(s => s !== null && s !== undefined).length;
 }
 
 // Função principal para semear os dados
 async function run(req, res) {
-    await inserePerfis();
-    await insereUsuarios();
-    await insereEquipamentos();
-    await insereComentarios();
-    if (req) {
-        res.json({ message: 'Dados semeados com sucesso!' });
+    try {
+        await prisma.$connect();
+        await prisma.comentario.deleteMany();
+        await prisma.equipamento.deleteMany();
+        await prisma.usuario.deleteMany();
+        await prisma.perfil.deleteMany();
+        const perfis = await inserePerfis();
+        const usuarios = await insereUsuarios();
+        const equipamentos = await insereEquipamentos();
+        const comentarios = await insereComentarios();
+        await prisma.$disconnect();
+        res.json({ perfis, usuarios, equipamentos, comentarios });
+    } catch (error) {
+        console.error('Erro ao conectar ao banco de dados:', error);
+        return res.status(500).json({ error: 'Erro ao conectar ao banco de dados' });
     }
 };
 
