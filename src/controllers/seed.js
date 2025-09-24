@@ -84,6 +84,7 @@ async function insereComentarios() {
 }
 
 async function redefineIdSequence() {
+    //Função para redefinir a sequência de IDs após a inserção manual dos dados no POSTGRESQL
     await prisma.$executeRaw`SELECT setval('public."Equipamento_id_seq"', (SELECT MAX(id) FROM public."Equipamento"));`;
     await prisma.$executeRaw`SELECT setval('public."Comentario_id_seq"', (SELECT MAX(id) FROM public."Comentario"));`;
 }
