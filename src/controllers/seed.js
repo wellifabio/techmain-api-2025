@@ -95,10 +95,10 @@ async function run(req, res) {
         const usuarios = await insereUsuarios();
         const equipamentos = await insereEquipamentos();
         const comentarios = await insereComentarios();
-        await prisma.$executeRaw`SELECT setval('public."Perfil_id_seq"', (SELECT MAX(id) FROM public."Perfil"));`;
-        await prisma.$executeRaw`SELECT setval('public."Usuario_id_seq"', (SELECT MAX(id) FROM public."Usuario"));`;
-        await prisma.$executeRaw`SELECT setval('public."Equipamento_id_seq"', (SELECT MAX(id) FROM public."Equipamento"));`;
-        await prisma.$executeRaw`SELECT setval('public."Comentario_id_seq"', (SELECT MAX(id) FROM public."Comentario"));`;
+        await prisma.$executeRaw`SELECT setval('public."Perfil_id_seq"', COALESCE((SELECT MAX(id) FROM public."Perfil"), 1));`;
+        await prisma.$executeRaw`SELECT setval('public."Usuario_id_seq"', COALESCE((SELECT MAX(id) FROM public."Usuario"), 1));`;
+        await prisma.$executeRaw`SELECT setval('public."Equipamento_id_seq"', COALESCE((SELECT MAX(id) FROM public."Equipamento"), 1));`;
+        await prisma.$executeRaw`SELECT setval('public."Comentario_id_seq"', COALESCE((SELECT MAX(id) FROM public."Comentario"), 1));`;
         await prisma.$disconnect();
         res.json({ perfis, usuarios, equipamentos, comentarios });
     } catch (error) {
