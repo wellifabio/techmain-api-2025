@@ -1,0 +1,23 @@
+{
+  "name": "techman-api",
+  "version": "1.0.0",
+  "main": "api/server.js",
+  "scripts": {
+    "dev": "npx nodemon api/server.js",
+    "postinstall": "prisma migrate dev --name init && prisma generate"
+  },
+  "keywords": [],
+  "author": "wellifabio",
+  "license": "ISC",
+  "description": "API para o sistema TechMan (Manutenção de equipamentos) - Educativo",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security"
+  }
+}
