@@ -6,19 +6,10 @@ const Usuario = require('./controllers/usuario');
 const Equipamento = require('./controllers/equipamento');
 const Comentario = require('./controllers/comentario');
 
-import seedData from '../prisma/seed';
-
-async function handler(req, res) {
-    if (req.method === 'POST') {
-        await seedData();
-        res.status(200).json({ message: 'Dados semeados com sucesso!' });
-    } else {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-}
-
-router.post('/seed', handler);
+router.post('/seed', async (req, res) => {
+    await require('../prisma/seed');
+    res.json({ message: 'Dados semeados com sucesso!' });
+});
 
 router.get('/', (req, res) => {
     return res.json({
