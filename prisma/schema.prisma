@@ -15,9 +15,9 @@ model Perfil {
 }
 
 model Usuario {
-  id     Int    @id @default(autoincrement())
-  senha  String @db.VarChar(50)
-  perfil Int
+  id            Int    @id @default(autoincrement())
+  senha         String @db.VarChar(50)
+  perfil        Int
   usuarioPerfil Perfil @relation(fields: [perfil], references: [id])
 }
 
@@ -32,11 +32,11 @@ model Equipamento {
 }
 
 model Comentario {
-  id          Int         @id @default(autoincrement())
-  comentario  String      @db.Text
-  equipamento Int
-  perfil      Int
-  data        DateTime    @default(now())
-  comentarioPerfil         Perfil      @relation(fields: [perfil], references: [id])
-  comentarioEquipamento      Equipamento @relation(fields: [equipamento], references: [id], onDelete: Cascade)
+  id                    Int         @id @default(autoincrement())
+  comentario            String      @db.Text
+  equipamento           Int
+  perfil                Int
+  data                  DateTime    @default(now())
+  comentarioPerfil      Perfil      @relation(fields: [perfil], references: [id])
+  comentarioEquipamento Equipamento @relation(fields: [equipamento], references: [id], onDelete: Cascade)
 }
