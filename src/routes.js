@@ -8,6 +8,7 @@ const Comentario = require('./controllers/comentario');
 const Seed = require('./controllers/seed');
 
 router.post('/seed', Seed.run);
+router.post('/seed/redefine', Seed.redefineIdSequence);
 
 router.get('/', (req, res) => {
     return res.json({
