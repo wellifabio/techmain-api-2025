@@ -14,5 +14,12 @@ DATABASE_URL="mysql://root@localhost:3306/techman"
 PORT=4000
 ```
 4. De start no SGBD **MySQL**
-5. Rode `npx prisma migrate dev --name init` para criar as tabelas no banco de dados.
-6. Rode `npm run dev` para iniciar o servidor em modo de desenvolvimento.
+5. Altere o SGBD no `prosma/schema.prisma` para 'mysql'
+```js
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+6. Rode `npx prisma migrate dev --name init` para criar as tabelas no banco de dados.
+7. Rode `npm run dev` para iniciar o servidor em modo de desenvolvimento.
