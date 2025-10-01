@@ -17,7 +17,7 @@ PORT=4000
 5. Altere o SGBD no `prosma/schema.prisma` para 'mysql'
 ```js
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 ```
