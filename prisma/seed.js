@@ -1,12 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const fs = require('fs');
+const path = require('path');
 
 //Importando os dados de arquivo csv para variáveis
-const perfisData = fs.readFileSync('../data/perfis.csv', 'utf8');
-const usuariosData = fs.readFileSync('../data/usuarios.csv', 'utf8');
-const equipamentosData = fs.readFileSync('../data/equipamentos.csv', 'utf8');
-const comentariosData = fs.readFileSync('../data/comentarios.csv', 'utf8');
+const perfisData = fs.readFileSync(path.join(__dirname, '../data/perfis.csv'), 'utf8');
+const usuariosData = fs.readFileSync(path.join(__dirname, '../data/usuarios.csv'), 'utf8');
+const equipamentosData = fs.readFileSync(path.join(__dirname, '../data/equipamentos.csv'), 'utf8');
+const comentariosData = fs.readFileSync(path.join(__dirname, '../data/comentarios.csv'), 'utf8');
 
 // Funções para inserir os dados em cada tabela
 async function inserePerfis() {
