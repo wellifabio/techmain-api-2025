@@ -83,7 +83,7 @@ async function run(req, res) {
         // const equipamentos = await insereEquipamentos();
         // const comentarios = await insereComentarios();
         await prisma.$disconnect();
-        res.json({ perfis, usuarios, equipamentos, comentarios });
+        res.json({ perfis, usuarios});
     } catch (error) {
         console.error('Erro ao conectar ao banco de dados:', error);
         return res.status(500).json({ error: 'Erro ao conectar ao banco de dados' });
