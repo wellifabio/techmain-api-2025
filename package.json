@@ -4,12 +4,15 @@
   "main": "api/server.js",
   "scripts": {
     "dev": "npx nodemon api/server.js",
-    "postinstall": "prisma migrate dev --name init && prisma generate"
+    "postinstall": "prisma db seed &&prisma generate"
   },
   "keywords": [],
   "author": "wellifabio",
   "license": "ISC",
   "description": "API para o sistema TechMan (Manutenção de equipamentos) - Educativo",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "dependencies": {
     "@prisma/client": "^6.16.2",
     "cors": "^2.8.5",

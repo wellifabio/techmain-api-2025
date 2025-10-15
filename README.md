@@ -23,3 +23,12 @@ datasource db {
 ```
 6. Rode `npx prisma migrate dev --name init` para criar as tabelas no banco de dados.
 7. Rode `npm run dev` para iniciar o servidor em modo de desenvolvimento.
+
+## Redefinir o banco de dados PostgreSQL em Neon
+1. Acesse o painel do Neon e delete o banco de dados atual.
+2. De drop em todas as tabelas do banco de dados.
+3. Em package.json altere o script de `postinstall" para:
+```json
+"postinstall": "prisma migrate dev --name init && prisma db seed && prisma generate"
+```
+4. Faça novo commit e deploy no Vercel.
