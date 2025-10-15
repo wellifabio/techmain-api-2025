@@ -5,10 +5,10 @@ const router = express.Router();
 const Usuario = require('./controllers/usuario');
 const Equipamento = require('./controllers/equipamento');
 const Comentario = require('./controllers/comentario');
-const Seed = require('./controllers/seed');
+const ReSeed = require('./controllers/reseed');
 
-router.post('/seed', Seed.run);
-router.post('/seed/redefine', Seed.redefineIdSequence);
+router.post('/seed', ReSeed.run);
+router.post('/seed/redefine', ReSeed.redefineIdSequence);
 
 router.get('/', (req, res) => {
     return res.json({
